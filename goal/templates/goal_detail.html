@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for message in messages %}
+<div class="alert alert-{{message.tags}}">
+    {{message}}
+</div>
+{% endfor %}
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="float-right">
+                <a href="{% url 'goals:list' %}" class="btn btn-light rounded-0">Back</a>
+            </div>
+
+            <h1>{{ goal.name}}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{  form }}
+                <div class="float-right">
+                    <button class="btn btn-light rounded-0">{{btn_name}}</button>
+                </div> 
+            </form>
+        </div>
+    </div>
+    <div>
+        <p class="text-center"><b>Objectives</b></p>
+    </div>
+    <div class="row">
+        {% for objective in obj %}
+        <div class="col-md-4 p-2">
+            <div class="card p-2">
+                <span class='lead mb-2'><b>{{ objective.comment }}</b></span>
+                <div class="">
+                    {% if objective.completed != True %}
+                    <a href="{{obj.get_absolute_url}}{{objective.id}}/delete/" class="btn btn-danger">Delete</a>
+                    <a href="{{obj.get_absolute_url}}{{objective.id}}/complete/" class="btn btn-success">Complete</a>
+                    {% else %}
+                    <a href="{{obj.get_absolute_url}}{{objective.id}}/delete/" class="btn btn-danger float-right">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

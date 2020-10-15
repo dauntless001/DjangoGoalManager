@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for message in messages %}
+<div class="alert alert-{{message.tags}}">
+    {{message}}
+</div>
+{% endfor %}
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <a href="{% url 'todo:home' %}" class="btn btn-light rounded-0">Back</a>
+        <a href="{% url 'todo:create' %}" class="btn btn-primary rounded-0">Add Todo</a>
+        <div class="float-right">
+            <a href="{% url 'goals:create' %}" class="btn btn-dark rounded-0">Set Goals</a>
+        </div>
+    </div>
+    <br><br>
+</div>
+{% if goals %}
+<div>
+    <h1 class="text-center">Things to Achieve</h1>
+    <br>
+</div>
+
+<div class="row">
+{% for goal in goals %}
+    <div class="col-md-6 p-3">
+        <div class="card p-3">
+            <div class="card-body">
+                <div class="badge badge-warning">
+                    {{ goal.duration }} Days
+                </div><br>
+                <a href="{{ goal.get_absolute_url }}" style='text-decoration:none'><b class="text-dark">{{ goal.name }}</b></a>
+                <span class="float-right">
+                    {% if goal.completed != True %}
+                    <a href="{{ goal.get_absolute_url }}edit" class="btn btn-light">Edit</a>
+                    <a href="{{ goal.get_absolute_url }}complete" class="btn btn-success">Complete</a>
+                    <a href="{{ goal.get_absolute_url }}delete" class="btn btn-danger">Delete</a>
+                    {% else %}
+                    <a href="{{ goal.get_absolute_url }}delete" class="btn btn-danger">Delete</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% else %}
+<br><br>
+<div class="col-md-6 mx-auto">
+    <div class="card">
+        <div class="card-body text-center">
+          You haven't Set any Goal Yet              
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="col-sm-6 mx-auto text-center">
+    <span class="step-links">
+        {% if goals.has_previous %}
+            <a href="?page={{ goals.previous_page_number }}" class="btn btn-light">previous</a>
+        {% endif %}
+
+        {% if goals.has_next %}
+            <a href="?page={{ goals.next_page_number }}" class="btn btn-light">next</a>
+        {% endif %}
+    </span>
+    <br>
+</div>
+{% endblock %}

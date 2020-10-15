@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">
+        {{message}}
+    </div>
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <a href="{% url 'todo:create' %}" class="btn btn-primary rounded-0">Add Todo</a>
+            <div class="float-right">
+                <a href="{% url 'goals:create' %}" class="btn btn-dark rounded-0">Set Goals</a>
+                <a href="{% url 'goals:list' %}" class="btn btn-warning rounded-0">View Goals</a>
+            </div>
+        </div>
+    </div>
+    {% if todos %}
+    <div>
+        <h1 class="text-center">Your Todos</h1>
+    </div>
+    {% for todo in todos %}
+    
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-body">
+              {{todo.task}}
+              {% if todo.completed == True %}
+              <div class="badge badge-success">Completed</div>
+              {% else %}
+              <div class="badge badge-warning">Pending</div>
+              {% endif %}
+              <span class="float-right">
+                {% if todo.completed != True %}
+                <a href="{% url 'todo:edit' todo.slug %}" class="btn btn-light rounded-0">Edit</a>
+                <a href="{% url 'todo:delete' todo.slug %}" class="btn btn-danger rounded-0">Delete</a>
+                <a href="{% url 'todo:complete' todo.slug %}" class="btn btn-success rounded-0">Complete</a>
+                {% else %}
+                <a href="{% url 'todo:delete' todo.slug %}" class="btn btn-danger rounded-0">Delete</a>
+                {% endif %}
+              </span>
+            </div>
+        </div>
+    </div>
+    <br />
+    {% endfor %}
+    {% else %}
+    <br><br>
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-body text-center">
+              You have no Todo's Yet              
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="col-sm-6 mx-auto text-center">
+        <span class="step-links">
+            {% if todos.has_previous %}
+                <a href="?page={{ todos.previous_page_number }}" class="btn btn-light">previous</a>
+            {% endif %}
+    
+            {% if todos.has_next %}
+                <a href="?page={{ todos.next_page_number }}" class="btn btn-light">next</a>
+            {% endif %}
+        </span>
+        <br>
+    </div>
+
+{% endblock %}

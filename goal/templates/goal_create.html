@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <a href="{% url 'goals:list' %}" class="btn btn-primary rounded-0">Back</a>
+    </div>
+</div>
+<div class="col-md-4 mx-auto">
+    <h1 class="text-center">Set Goals</h1>
+    {% include 'form.html' %}
+</div>
+
+{% endblock %}

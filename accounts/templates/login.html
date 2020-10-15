@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for message in messages %}
+<div class="alert alert-{{message.tags}}">
+    {{message}}
+</div>
+{% endfor %}
+<div class="row">
+    <div class="col-4 mx-auto m-5">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form }}
+            </div>
+            <input class="btn btn-secondary" type="submit" value="Login">
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+
